@@ -494,6 +494,32 @@ var marshalTests = []struct {
 		},
 		"value: !!seq []\n",
 	},
+
+	// Enforced string nodes quoting with old-style booleans
+	{
+		&struct {
+			Value yaml.Node
+		}{
+			yaml.Node{
+				Kind:  yaml.ScalarNode,
+				Value: "y",
+				Tag:   "!!str",
+			},
+		},
+		"value: \"y\"\n",
+	},
+	{
+		&struct {
+			Value yaml.Node
+		}{
+			yaml.Node{
+				Kind:  yaml.ScalarNode,
+				Value: "yes",
+				Tag:   "!!str",
+			},
+		},
+		"value: \"yes\"\n",
+	},
 }
 
 func (s *S) TestMarshal(c *C) {

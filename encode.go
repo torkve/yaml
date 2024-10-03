@@ -447,11 +447,13 @@ func (e *encoder) node(node *Node, tail string) {
 				tag = ""
 			} else {
 				rtag, _ := resolve("", node.Value)
-				if rtag == stag {
+				if stag == strTag {
 					tag = ""
-				} else if stag == strTag {
+					if rtag != stag || isBase60Float(node.Value) || isOldBool(node.Value) {
+						forceQuoting = true
+					}
+				} else if stag == rtag {
 					tag = ""
-					forceQuoting = true
 				}
 			}
 		} else {
